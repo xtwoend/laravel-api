@@ -15,7 +15,7 @@ Open your composer.json file and add the following lines:
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:feelinc/laravel-api.git",
+            "url": "git@github.com:xtwoend/laravel-api.git",
             "options": {
                 "ssl": {
                     "verify_peer": "false"
@@ -24,7 +24,7 @@ Open your composer.json file and add the following lines:
         }
     ]
     "minimum-stability": "stable"
-}e
+}
 ```
 Run composer update from the command line
 ```

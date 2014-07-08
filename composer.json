@@ -12,6 +12,9 @@
         "league/oauth2-server": "2.1.x"
     },
     "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
         "psr-0": {
             "Sule\\Api": "src/"
         }
