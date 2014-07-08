@@ -10,7 +10,7 @@ Open your composer.json file and add the following lines:
 ```json
 {
     "require": {
-        "sule/api": "2.0.0",
+        "sule/api": "2.0.1",
     },
     "repositories": [
         {
