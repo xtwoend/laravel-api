@@ -17,6 +17,10 @@ class CreateOauthClientsTable extends Migration
             $table->string('id', 40);
             $table->string('secret', 40);
             $table->string('name');
+            $table->integer('request_limit')->default(500);
+            $table->integer('current_total_request');
+            $table->timestamp('request_limit_until');
+            $table->timestamp('last_request_at');
             $table->timestamps();
 
             $table->unique('id');
