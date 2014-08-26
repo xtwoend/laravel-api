@@ -44,6 +44,12 @@ Add the following to the list of aliases in "app/config/app.php".
 ### 3. Create Tables
 Create all required tables from "TABLES.sql" file.
 
+OR with command:
+```
+php artisan migrate --package=sule/api
+```
+
+
 ### 4. Configuration
 After installing, you can publish the package's configuration file into your application, by running the following command:
 ```
