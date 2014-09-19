@@ -20,6 +20,7 @@ use Sule\Api\Facades\Response;
 
 use DateTime;
 
+use League\OAuth2\Server\Util\RedirectUri;
 use League\OAuth2\Server\Exception\ClientException;
 use League\OAuth2\Server\Exception\InvalidAccessTokenException;
 
@@ -256,6 +257,64 @@ class Api
         $headers = array_merge($headers, $this->getConfig('headers'));
 
         return $this->getResponse()->collectionJson($data, $status, $headers);
+    }
+
+
+    /**
+     * Make a redirect to a client redirect URI
+     * @param  string $uri            the uri to redirect to
+     * @param  array  $params         the query string parameters
+     * @param  string $queryDelimeter the query string delimiter
+     * @return Redirect               a Redirect object
+     */
+    public function makeRedirect($uri, $params = array(), $queryDelimeter = '?')
+    {
+        return RedirectUri::make($uri, $params, $queryDelimeter);
+    }
+
+    /**
+     * Make a redirect with an authorization code
+     * 
+     * @param  string $code   the authorization code of the redirection
+     * @param  array  $params the redirection parameters
+     * @return Redirect       a Redirect object
+     */
+    public function makeRedirectWithCode($code, $params = array())
+    {
+        return $this->makeRedirect($params['redirect_uri'], array(
+            'code'  =>  $code,
+            'state' =>  isset($params['state']) ? $params['state'] : '',
+        ));
+    }
+
+    /**
+     * Make a redirect with an error
+     * 
+     * @param  array  $params the redirection parameters
+     * @return Redirect       a Redirect object
+     */
+    public function makeRedirectWithError($params = array())
+    {
+        return $this->makeRedirect($params['redirect_uri'], array(
+            'error' =>  'access_denied',
+            'error_description' =>  $this->authServer->getExceptionMessage('access_denied'),
+            'state' =>  isset($params['state']) ? $params['state'] : ''
+        ));
+    }
+
+    /**
+     * Check the authorization code request parameters
+     * 
+     * @throws \OAuth2\Exception\ClientException
+     * @return array Authorize request parameters
+     */
+    public function checkAuthorizeParams()
+    {
+        $input = $this->request->all();
+      
+        return $this->getOAuth()->getAuthServer()
+                    ->getGrantType('authorization_code')
+                    ->checkAuthoriseParams($input);
     }
 
     /**
